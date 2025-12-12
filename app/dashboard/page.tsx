@@ -1,3 +1,19 @@
+"use client";
+
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  CartesianGrid,
+  BarChart,
+  Bar,
+} from "recharts";
+
+import { monthlyPnL, expensesVsPayouts } from "@/libs/mockCharts";
+
 export default function DashboardPage() {
   // Mock data (replace with real data later)
   const summary = {
@@ -98,12 +114,12 @@ export default function DashboardPage() {
 
       {/* Charts + Activity */}
       <div className="row g-3">
-        {/* Chart: Monthly PnL */}
+        {/* Chart: Monthly Profit */}
         <div className="col-12 col-lg-7">
-          <div className="dash-panel p-3 h-100">
+          <div className="dash-panel p-3 h-100 d-flex flex-column">
             <div className="d-flex align-items-center justify-content-between mb-2">
               <div>
-                <div className="fw-semibold">Monthly PnL</div>
+                <div className="fw-semibold">Monthly Profit</div>
                 <div className="text-muted small">Last 6 months</div>
               </div>
               <select className="form-select form-select-sm w-auto dash-select">
@@ -113,14 +129,30 @@ export default function DashboardPage() {
               </select>
             </div>
 
-            {/* Placeholder chart area (swap with Recharts later) */}
-            <div className="dash-chart-placeholder">
-              <div className="text-muted small">
-                Chart placeholder (connect Recharts later)
+            {/* Chart area fills remaining height and stays visually centered */}
+            <div className="flex-grow-1 d-flex align-items-center">
+              <div style={{ width: "100%", height: 260 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={monthlyPnL} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
+                    <XAxis dataKey="month" stroke="#94a3b8" />
+                    <YAxis stroke="#94a3b8" />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "#020617",
+                        border: "1px solid rgba(148,163,184,0.25)",
+                        borderRadius: 8,
+                      }}
+                      labelStyle={{ color: "#e5e7eb" }}
+                    />
+                    <Line type="monotone" dataKey="profit" stroke="#22c55e" strokeWidth={2} dot={{ r: 3 }} />
+                  </LineChart>
+                </ResponsiveContainer>
               </div>
             </div>
           </div>
         </div>
+
 
         {/* Right column: Expense vs Payouts + Alerts */}
         <div className="col-12 col-lg-5">
@@ -129,9 +161,53 @@ export default function DashboardPage() {
               <div className="dash-panel p-3">
                 <div className="fw-semibold mb-1">Expenses vs Payouts</div>
                 <div className="text-muted small mb-2">Last 30 days</div>
-                <div className="dash-chart-placeholder dash-chart-placeholder-sm">
-                  <div className="text-muted small">Chart placeholder</div>
+
+                <div style={{ width: "100%", height: 160 }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={expensesVsPayouts}>
+                      <defs>
+                        {/* Neon Green Gradient */}
+                        <linearGradient id="greenGlow" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#22c55e" stopOpacity={1} />
+                          <stop offset="100%" stopColor="#16a34a" stopOpacity={0.85} />
+                        </linearGradient>
+
+                        {/* Neon Red Gradient */}
+                        <linearGradient id="redGlow" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#ef4444" stopOpacity={1} />
+                          <stop offset="100%" stopColor="#b91c1c" stopOpacity={0.85} />
+                        </linearGradient>
+                      </defs>
+
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
+                      <XAxis dataKey="month" stroke="#94a3b8" />
+                      <YAxis stroke="#94a3b8" />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "#020617",
+                          border: "1px solid rgba(148,163,184,0.25)",
+                          borderRadius: 8,
+                        }}
+                        labelStyle={{ color: "#e5e7eb" }}
+                      />
+
+                      {/* Expenses (Red) */}
+                      <Bar
+                        dataKey="expenses"
+                        fill="url(#redGlow)"
+                        radius={[6, 6, 0, 0]}
+                      />
+
+                      {/* Payouts (Green) */}
+                      <Bar
+                        dataKey="payouts"
+                        fill="url(#greenGlow)"
+                        radius={[6, 6, 0, 0]}
+                      />
+                    </BarChart>
+                  </ResponsiveContainer>
                 </div>
+
               </div>
             </div>
 
@@ -204,18 +280,16 @@ export default function DashboardPage() {
                       <tr key={idx}>
                         <td>
                           <span
-                            className={`badge rounded-pill ${
-                              isPayout ? "bg-primary" : "bg-secondary"
-                            }`}
+                            className={`badge rounded-pill ${isPayout ? "bg-primary" : "bg-secondary"
+                              }`}
                           >
                             {row.type}
                           </span>
                         </td>
                         <td className="fw-semibold">{row.account}</td>
                         <td
-                          className={`fw-semibold ${
-                            row.amount >= 0 ? "text-info" : "text-warning"
-                          }`}
+                          className={`fw-semibold ${row.amount >= 0 ? "text-info" : "text-warning"
+                            }`}
                         >
                           {money(row.amount)}
                         </td>

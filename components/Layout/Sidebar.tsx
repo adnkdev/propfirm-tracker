@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, Wallet, CreditCard, BarChart3 } from "lucide-react";
 
@@ -16,9 +17,16 @@ export function Sidebar() {
 
   return (
     <aside className="app-sidebar h-100 d-flex flex-column px-3 py-4">
-      {/* Brand */}
-      <div className="mb-4">
-        <h2 className="h4 mb-0 app-logo-text">Nexus</h2>
+      {/* Logo only */}
+      <div className="d-flex justify-content-center mb-4">
+        <Image
+          src="/logo/propstrackrlogo-lg.png"
+          alt="PropsTrackr"
+          width={200}
+          height={200}
+          priority
+          className="sidebar-logo-lg"
+        />
       </div>
 
       {/* Navigation */}
@@ -44,7 +52,7 @@ export function Sidebar() {
       </nav>
 
       {/* Footer */}
-      <div className="mt-4 small text-muted">
+      <div className="mt-4 small text-muted text-center">
         Logged in as <span className="fw-semibold text-info">Trader</span>
       </div>
     </aside>
