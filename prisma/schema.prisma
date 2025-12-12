@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum AccountType {
+  EVALUATION
+  CHALLENGE
+  FUNDED
+}
+
+enum AccountStatus {
+  ACTIVE
+  FAILED
+  COMPLETED
+  REFUNDED
+}
+
+enum ExpenseType {
+  CHALLENGE_FEE
+  RESET
+  RETRY
+  EXTENSION
+  VPS
+  DATA
+  SOFTWARE
+  EDUCATION
+  OTHER
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  accounts  Account[]
+  expenses  Expense[]
+  payouts   Payout[]
+}
+
+model PropFirm {
+  id           String   @id @default(cuid())
+  name         String   @unique
+  websiteUrl   String?
+  defaultSplit Decimal? @db.Decimal(5, 2)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  accounts     Account[]
+}
+
+model Account {
+  id           String       @id @default(cuid())
+  userId       String
+  propFirmId   String?
+
+  accountName  String
+  accountType  AccountType
+  status       AccountStatus @default(ACTIVE)
+  currency     String        @default("USD")
+  accountSize  Decimal       @db.Decimal(18, 2)
+
+  startDate    DateTime?
+  endDate      DateTime?
+
+  profitTarget Decimal?      @db.Decimal(18, 2)
+  maxDailyLoss Decimal?      @db.Decimal(18, 2)
+  maxTotalLoss Decimal?      @db.Decimal(18, 2)
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id])
+  propFirm     PropFirm?     @relation(fields: [propFirmId], references: [id])
+
+  expenses     Expense[]
+  payouts      Payout[]
+
+  @@index([userId])
+  @@index([propFirmId])
+}
+
+model Expense {
+  id          String      @id @default(cuid())
+  userId      String
+  accountId   String?
+
+  expenseType ExpenseType
+  description String?
+  amount      Decimal     @db.Decimal(18, 2)
+  currency    String      @default("USD")
+  expenseDate DateTime    @default(now())
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  user        User        @relation(fields: [userId], references: [id])
+  account     Account?    @relation(fields: [accountId], references: [id])
+
+  @@index([userId])
+  @@index([accountId])
+  @@index([expenseDate])
+}
+
+model Payout {
+  id           String   @id @default(cuid())
+  userId       String
+  accountId    String
+
+  grossAmount  Decimal  @db.Decimal(18, 2)
+  split        Decimal? @db.Decimal(5, 2)
+  netToTrader  Decimal  @db.Decimal(18, 2)
+  currency     String   @default("USD")
+
+  payoutMethod String?
+  payoutDate   DateTime @default(now())
+  notes        String?
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  user         User     @relation(fields: [userId], references: [id])
+  account      Account  @relation(fields: [accountId], references: [id])
+
+  @@index([userId])
+  @@index([accountId])
+  @@index([payoutDate])
+}

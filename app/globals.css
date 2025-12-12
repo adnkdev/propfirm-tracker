@@ -24,3 +24,169 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+/* Global background */
+.app-bg {
+  background:
+    radial-gradient(circle at top left, rgba(147, 51, 234, 0.35), transparent 45%),
+    radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.25), transparent 40%),
+    #020617;
+  color: #e5e7eb;
+}
+
+/* Sidebar styling */
+.app-sidebar {
+  background:
+    radial-gradient(circle at top left, rgba(147, 51, 234, 0.22), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(37, 99, 235, 0.18), transparent 45%),
+    #020617;
+  border-right: 1px solid rgba(129, 140, 248, 0.4);
+  box-shadow: 0 0 40px rgba(15, 23, 42, 0.8);
+}
+
+.app-logo-text {
+  background: linear-gradient(90deg, #c4b5fd, #60a5fa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Top bar */
+.app-topbar {
+  background: linear-gradient(
+    90deg,
+    rgba(15, 23, 42, 0.95),
+    rgba(55, 65, 81, 0.9),
+    rgba(30, 64, 175, 0.9)
+  );
+  border-bottom: 1px solid rgba(129, 140, 248, 0.5);
+  box-shadow: 0 0 40px rgba(56, 189, 248, 0.25);
+}
+
+/* Live badge + dot */
+.app-badge-live {
+  border: 1px solid rgba(147, 51, 234, 0.7);
+  background: radial-gradient(circle at left, rgba(45, 212, 191, 0.2), transparent 55%);
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background-color: #22c55e;
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.9);
+}
+
+/* Profile button */
+.app-profile-btn {
+  border-color: rgba(148, 163, 184, 0.7);
+  background-color: rgba(15, 23, 42, 0.8);
+}
+
+.app-profile-btn:hover {
+  border-color: #60a5fa;
+  box-shadow: 0 0 18px rgba(59, 130, 246, 0.65);
+}
+
+/* Main content card */
+.app-main {
+  background: radial-gradient(circle at top, rgba(15, 23, 42, 0.5), transparent 55%);
+}
+
+.app-main-card {
+  border-radius: 1.25rem;
+  border: 1px solid rgba(51, 65, 85, 0.9);
+  background: radial-gradient(circle at top left, rgba(30, 64, 175, 0.3), transparent 55%),
+    rgba(15, 23, 42, 0.9);
+  box-shadow: 0 0 40px rgba(15, 23, 42, 0.95);
+  padding: 1.5rem;
+}
+
+/* Sidebar nav links */
+.app-nav-link {
+  color: #9ca3af;
+  font-size: 0.9rem;
+  transition: all 0.15s ease-in-out;
+}
+
+.app-nav-link svg {
+  color: #9ca3af;
+}
+
+.app-nav-link:hover {
+  background: rgba(31, 41, 55, 0.9);
+  color: #e5e7eb;
+}
+
+.app-nav-link:hover svg {
+  color: #bfdbfe;
+}
+
+.app-nav-link.active {
+  background: linear-gradient(90deg, rgba(147, 51, 234, 0.85), rgba(59, 130, 246, 0.85));
+  color: #f9fafb;
+  box-shadow: 0 0 18px rgba(59, 130, 246, 0.6);
+}
+
+.app-nav-link.active svg {
+  color: #fef9c3;
+}
+
+
+/* Dashboard cards/panels */
+
+.text-muted {
+  color: rgba(226, 232, 240, 0.85) !important; /* slate-200 */
+}
+
+.dash-card,
+.dash-panel {
+  border-radius: 1.25rem;
+  border: 1px solid rgba(129, 140, 248, 0.28);
+  background:
+    radial-gradient(circle at top left, rgba(147, 51, 234, 0.22), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(59, 130, 246, 0.18), transparent 45%),
+    rgba(2, 6, 23, 0.75);
+  box-shadow: 0 0 40px rgba(15, 23, 42, 0.85);
+}
+
+.dash-badge {
+  border: 1px solid rgba(147, 51, 234, 0.65);
+  background: rgba(2, 6, 23, 0.55);
+  color: #e5e7eb;
+}
+
+/* Chart placeholders */
+.dash-chart-placeholder {
+  height: 260px;
+  border-radius: 1rem;
+  border: 1px dashed rgba(129, 140, 248, 0.35);
+  background: rgba(2, 6, 23, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dash-chart-placeholder-sm {
+  height: 160px;
+}
+
+/* Alerts */
+.dash-alert {
+  border-radius: 0.9rem;
+  border: 1px solid rgba(51, 65, 85, 0.9);
+  background: rgba(2, 6, 23, 0.6);
+  padding: 0.75rem;
+}
+
+/* Select styling */
+.dash-select {
+  border-color: rgba(129, 140, 248, 0.35);
+  background-color: rgba(2, 6, 23, 0.8);
+  color: #e5e7eb;
+}
+.dash-select:focus {
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25);
+  border-color: rgba(59, 130, 246, 0.55);
+}
